@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Proposta Indecente na Web!</title>
+    <style>
+        /* Estilos CSS para o layout e aparência */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+            overflow: hidden; /* Evita barras de rolagem quando o botão foge */
+            position: relative; /* Para que os botões possam ser posicionados absolutamente */
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #3a3f47;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative; /* Para conter os botões posicionados absolutamente */
+            width: 90%; /* Ajusta a largura para mobile */
+            max-width: 400px; /* Largura máxima para desktop */
+            min-height: 250px; /* Altura mínima para melhor visualização */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8em; /* Ajusta para mobile */
+            margin-bottom: 30px;
+            color: #f0f0f0;
+            word-break: break-word; /* Quebra palavras longas para caber na tela */
+            padding: 0 10px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 20px;
+            position: relative; /* Para os botões se posicionarem dentro dele, ou pode ser no body */
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            margin: 0 15px; /* Espaço entre os botões */
+            user-select: none; /* Impede seleção de texto */
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        #botao-sim {
+            background-color: #28a745;
+            color: white;
+            position: relative; /* Manter 'Sim' no lugar */
+            z-index: 10; /* Garante que 'Sim' esteja acima de 'Não' se colidirem */
+        }
+
+        #botao-nao {
+            background-color: #dc3545;
+            color: white;
+            position: absolute; /* ESSENCIAL para o botão poder se mover livremente */
+            left: 50%; /* Posição inicial */
+            transform: translateX(-50%); /* Centraliza na horizontal */
+            top: 70%; /* Posição inicial mais abaixo */
+            transition: all 0.05s ease-out; /* Transição suave para o movimento */
+            z-index: 5; /* 'Não' pode ficar por baixo de 'Sim' */
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 500px) {
+            .container {
+                width: 95%;
+                min-height: 200px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>você quer fuder comigo?</h1>
+        <button id="botao-sim">Sim</button>
+        <button id="botao-nao">Não</button>
+    </div>
+
+    <script>
+        const botaoSim = document.getElementById('botao-sim');
+        const botaoNao = document.getElementById('botao-nao');
+
+        // Função para mostrar uma mensagem quando 'Sim' é clicado
+        function aoClicarSim() {
+            alert("Uau! Que resposta emocionante! 😳");
+            // Em uma aplicação real, você faria algo mais aqui, como redirecionar ou mostrar mais conteúdo.
+            // Para este exemplo, um alert é suficiente para mostrar que funcionou.
+        }
+
+        // Função para mover o botão 'Não'
+        function moverBotaoNao() {
+            // Pega as dimensões da janela visível
+            const larguraTela = window.innerWidth;
+            const alturaTela = window.innerHeight;
+
+            // Pega as dimensões do botão 'Não'
+            const larguraBotao = botaoNao.offsetWidth;
+            const alturaBotao = botaoNao.offsetHeight;
+
+            // Calcula novas posições aleatórias
+            // Garante que o botão não saia completamente da tela
+            // Margens de segurança para não encostar nas bordas ou no botão 'Sim'
+            const margem = 20; // Margem mínima das bordas
+            
+            // X: da margem até (largura da tela - largura do botão - margem)
+            const novaX = Math.random() * (larguraTela - larguraBotao - 2 * margem) + margem;
+            
+            // Y: da margem de cima até (altura da tela - altura do botão - margem inferior, para não ir para muito perto do 'Sim')
+            // Definindo um limite inferior para o Y para evitar o botão 'Sim'
+            const limiteInferiorY = botaoSim.offsetTop - alturaBotao - margem;
+            const novaY = Math.random() * (limiteInferiorY - margem) + margem;
+
+
+            // Aplica as novas posições
+            botaoNao.style.left = novaX + 'px';
+            botaoNao.style.top = novaY + 'px';
+        }
+
+        // Event listener para o botão 'Sim'
+        botaoSim.addEventListener('click', aoClicarSim);
+
+        // Event listeners para o botão 'Não'
+        // 'mouseover' para mouse (desktop)
+        botaoNao.addEventListener('mouseover', moverBotaoNao);
+        // 'touchstart' para toque (mobile/iOS) - note que 'mouseover' também pode disparar em mobile, mas 'touchstart' é mais específico.
+        botaoNao.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Impede o comportamento padrão de toque, se houver.
+            moverBotaoNao();
+        });
+
+        // Opcional: Para reposicionar o botão 'Não' se a tela for redimensionada (útil no desktop)
+        window.addEventListener('resize', moverBotaoNao);
+        
+        // Posiciona o botão 'Não' na carga inicial para garantir que esteja dentro da tela
+        moverBotaoNao();
+
+    </script>
+</body>
+</html>
